@@ -13,8 +13,11 @@ Define your processor nesesary comand in the top of file
 
 #ifdef	STM32
 #define	SPI_HANDLER_TYPE	SPI_HandleTypeDef // 	 USE YOUR PORT
+
 #define	PORT				GPIO_TypeDef*
+
 #define	PIN					uint16_t
+
 #define SYNC_PIN_SET	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_SET);
 #define SYNC_PIN_RESET	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_4, GPIO_PIN_RESET);
 #define MAX_DELAY			HAL_MAX_DELAY
