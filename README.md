@@ -1,6 +1,9 @@
 # ad7739
 C code driver for Ad773x series (spetialy for ad7739)
 
+MAKE THE PROCESSOR SPECIFIC DEFINITIONS
+---------------------------------------------------------------------------------
+
 Define your processor
 #ifndef STM32
 #define STM32
