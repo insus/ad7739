@@ -27,3 +27,56 @@ Define your processor nesesary comand in the top of file
 
 
 
+FOR SINGLE CONVERTION
+--------------------------------------------------------------------------------------------------------
+AD773x ad7739;
+	createADC(&ad7739, &hspi2, GPIOA, GPIO_PIN_8, GPIOA, GPIO_PIN_0);
+	setADCP1Input(&ad7739);
+AD773xChannel *one = createChannel(&ad7739, 0);
+	//setChannelEnabledInContinuesReadMode(one);
+	//setChannelContinuesRead(one);
+	setChannel24Bit(one);
+	setChannelAllowChoping(one);
+	setChannelConvertionTime(one, 30);
+	setChannelPowerRange(one, V2_5);
+	setChannelDumpEnabled(one);
+	//setChannelClockDisable(one);
+  
+  initADC(&ad7739);
+  
+    startSingleConvertion(&ad7739, one);
+		while (IS_RDY(ad7739.ADC_RDY_PORT, ad7739.ADC_RDY_PIN)) {}
+    unsigned long value = readAD773xADCValue(&ad7739, i);
+    
+   FOR CONTINUES CONVERTION
+   -------------------------------------------------------------------------------------------------------
+   AD773xChannel *one = createChannel(&ad7739, 0);
+	//setChannelEnabledInContinuesReadMode(one);
+	//setChannelContinuesRead(one);
+	setChannel24Bit(one);
+	setChannelAllowChoping(one);
+	setChannelConvertionTime(one, 30);
+	setChannelPowerRange(one, V2_5);
+	setChannelDumpEnabled(one);
+	//setChannelClockDisable(one);
+
+	AD773xChannel *two = createChannel(&ad7739, 1);
+	setChannelEnabledInContinuesReadMode(two); //two->isEnabled = ENABLE;
+	//setChannelContinuesRead(two);
+	setChannel24Bit(two);
+	setChannelAllowChoping(two);
+	setChannelConvertionTime(two, 30);
+	setChannelPowerRange(two, V2_5);
+	setChannelDumpEnabled(two);
+
+	initADC(&ad7739);
+  
+  startContinuesConvertion(&ad7739, one);
+  while(1) {
+    while (IS_RDY(ad7739.ADC_RDY_PORT, ad7739.ADC_RDY_PIN)) {}
+    for (uint8_t i = 0; i < 8; i++) {
+			if (ad7739.channel[i].active == 1) {			
+				unsigned long value = readAD773xADCValue(&ad7739, i);
+        }
+    }
+  }
